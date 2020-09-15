@@ -2,6 +2,7 @@ i=0
 NUM=$1
 rm -rf align/
 mkdir align
+oc exec -n redis ${redis_pod} -- redis-cli config set stop-writes-on-bgsave-error no
 redis_pod=$(oc get pods -n redis | grep redis | awk {'print$1'})
 oc exec -n redis ${redis_pod} -- redis-cli flushall
 while [ $i -lt $NUM ]; do
